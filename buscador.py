@@ -1,7 +1,10 @@
 import pandas as pd 
 from mcp.server.fastmcp import FastMCP
+from pathlib import Path
 
 mcp = FastMCP("buscador_livros")
+
+base_livros = Path(__file__).parent / "GoodReads_100k_books.csv"
 
 @mcp.tool()
 def buscador(genero, numero_pg):
@@ -20,9 +23,9 @@ def buscador(genero, numero_pg):
          'author', 'bookformat', 'desc', 'genre', 'img', 'isbn', 'isbn13',
        'link', 'pages', 'rating', 'reviews', 'title', 'totalratings'
     """   
-    base_livros = 'C:\\Users\Carol\\OneDrive\\Documentos Aleatórios\\recomendador_livros_programaria\\GoodReads_100k_books.csv'
 
     base = pd.read_csv(base_livros)
+    print('entrou aqui')
     base['pages'] = base['pages'].astype(int)
     base['rating'] = base['rating'].astype(float)
     base = base[(base['genre'].str.contains(genero, case=False)) & ((numero_pg-20)<base['pages']) & (base['pages']<(numero_pg+20))]
@@ -31,7 +34,11 @@ def buscador(genero, numero_pg):
         base_4 = base[base['rating']>4]
         if len(base_4) >0:
             base = base_4
-    return base
+
+    base = base.sort_values(by="rating", ascending=False)
+    resultado = base[['title', 'author', 'pages', 'genre', 'rating', 'desc']].head(10).to_dict(orient='records')
+
+    return resultado
 
 
 if __name__ == "__main__":
