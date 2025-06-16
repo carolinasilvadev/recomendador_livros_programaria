@@ -1,6 +1,8 @@
 import pandas as pd 
 from mcp.server.fastmcp import FastMCP
 from pathlib import Path
+import logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 mcp = FastMCP("buscador_livros")
 
@@ -57,12 +59,9 @@ def buscar_pelo_nome(title: str):
        'link', 'pages', 'rating', 'reviews', 'title', 'totalratings'
     """   
     base = pd.read_csv(base_livros, encoding= 'utf-8')
-
-    import pdb
-    pdb.set_trace()
+    logging.info(f"Buscando livro: {title}")
 
     resultado = base[base['title']==title]
-    resultado = resultado.values[0].to_dict()
 
     return resultado
 

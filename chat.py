@@ -35,7 +35,8 @@ async def chat():
         "Você pode usar tools para buscar informações sobre livros. Lembre-se de traduzir o gênero do livro para o inglês antes de fazer a busca na tool." \
         "Conside livros curtos os livros que tem no máximo 130 páginas." \
         "Considere livros longos os livros que tem mais de 400 páginas." \
-        "Na hora de responder escolha os 5 melhores livros baseados nas avaliações dos usuários."
+        "Na hora de responder escolha os 5 melhores livros baseados nas avaliações dos usuários." \
+        "Para encontrar informações de um livro específico, passe o nome em inglês e com codificação UTF-8." \
     )
 
     print("Digite sua solicitação (ex: 'quero um romance curto'). Use /q para sair.\n")
@@ -48,20 +49,20 @@ async def chat():
             print("Saindo...")
             break
 
-        # response = await agent.ainvoke(
-        #     {"messages": [{"role": "user", "content": user_input}]}
-        # )
+        response = await agent.ainvoke(
+            {"messages": [{"role": "user", "content": user_input}]}
+        )
 
-        async for chunk in agent.astream(
-                        {"messages": user_input},
-                        stream_mode=["messages", "custom"],
-                    ):
-            print(chunk)
-            import pdb
-            pdb.set_trace()
-        # print("\nResposta do agente:\n")
-        # print(response["messages"][-1].content)
-        # print("\n")
+        # async for chunk in agent.astream(
+        #                 {"messages": user_input},
+        #                 stream_mode=["messages", "custom"],
+        #             ):
+        #     print(chunk)
+        #     import pdb
+        #     pdb.set_trace()
+        print("\nResposta do agente:\n")
+        print(response["messages"][-1].content)
+        print("\n")
             # except: 
             #      print(f"Ocorreu um erro: {e}")
             #break
