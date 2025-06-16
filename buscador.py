@@ -7,7 +7,7 @@ mcp = FastMCP("buscador_livros")
 base_livros = Path(__file__).parent / "GoodReads_100k_books.csv"
 
 @mcp.tool()
-def buscador(genero, numero_pg):
+def buscador(genero: str, numero_pg: int) -> pd.DataFrame:
     """
     descricao: 
     Função para buscar livros dentro de uma base de dados
@@ -25,7 +25,6 @@ def buscador(genero, numero_pg):
     """   
 
     base = pd.read_csv(base_livros)
-    print('entrou aqui')
     base['pages'] = base['pages'].astype(int)
     base['rating'] = base['rating'].astype(float)
     base = base[(base['genre'].str.contains(genero, case=False)) & ((numero_pg-20)<base['pages']) & (base['pages']<(numero_pg+20))]
