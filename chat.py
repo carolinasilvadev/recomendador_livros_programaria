@@ -36,7 +36,8 @@ async def chat():
         "Conside livros curtos os livros que tem no máximo 130 páginas." \
         "Considere livros longos os livros que tem mais de 400 páginas." \
         "Na hora de responder escolha os 5 melhores livros baseados nas avaliações dos usuários." \
-        "Para encontrar informações de um livro específico, passe o nome em inglês e com codificação UTF-8." \
+        "Para encontrar informações de um livro específico, passe o nome em inglês e com codificação UTF-8." 
+        "Se não encontrar o nome do livro exatamente como passado tente corrigir para o nome correto."\
     )
 
     print("Digite sua solicitação (ex: 'quero um romance curto'). Use /q para sair.\n")

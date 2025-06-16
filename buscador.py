@@ -55,15 +55,26 @@ def buscar_pelo_nome(title: str):
 
     Returns:
         dict: informações do livro: 
-         'author', 'bookformat', 'desc', 'genre', 'img', 'isbn', 'isbn13',
-       'link', 'pages', 'rating', 'reviews', 'title', 'totalratings'
+        author: The name of the author/authors of the book
+        bookformat: The format of the book
+        desc: The description of the book
+        genre: The list of genres related to the book
+        img: Image link of the book
+        isbn: ISBN code of the book
+        isbn13: ISBN13 code of the book
+        link: The goodreads links of the book
+        pages: Number of pages in the book
+        rating: Average rating of the book
+        reviews: The number of reviews the book has
+        title: The title of the book
+        totalratings: Totalratings of the book
     """   
-    base = pd.read_csv(base_livros, encoding= 'utf-8')
+    base = pd.read_csv(base_livros)
     logging.info(f"Buscando livro: {title}")
 
     resultado = base[base['title']==title]
 
-    return resultado
+    return resultado.to_dict()
 
 
 if __name__ == "__main__":
