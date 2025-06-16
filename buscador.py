@@ -24,7 +24,7 @@ def buscador(genero: str, numero_pg: int) -> pd.DataFrame:
        'link', 'pages', 'rating', 'reviews', 'title', 'totalratings'
     """   
 
-    base = pd.read_csv(base_livros)
+    base = pd.read_csv(base_livros, encoding= 'utf-8')
     base['pages'] = base['pages'].astype(int)
     base['rating'] = base['rating'].astype(float)
     base = base[(base['genre'].str.contains(genero, case=False)) & ((numero_pg-20)<base['pages']) & (base['pages']<(numero_pg+20))]
@@ -36,6 +36,33 @@ def buscador(genero: str, numero_pg: int) -> pd.DataFrame:
 
     base = base.sort_values(by="rating", ascending=False)
     resultado = base[['title', 'author', 'pages', 'genre', 'rating', 'desc']].head(10).to_dict(orient='records')
+
+    return resultado
+
+@mcp.tool()
+def buscar_pelo_nome(title: str):
+    """
+    descricao: 
+    Função para buscar as informações de um 
+    livro dentro de uma base de dados
+    a partir do nome dele. 
+    Importante que o nome do livro seja passado em inglês. 
+
+    Args:
+        title (string): nome do livro (inglês)
+
+    Returns:
+        dict: informações do livro: 
+         'author', 'bookformat', 'desc', 'genre', 'img', 'isbn', 'isbn13',
+       'link', 'pages', 'rating', 'reviews', 'title', 'totalratings'
+    """   
+    base = pd.read_csv(base_livros, encoding= 'utf-8')
+
+    import pdb
+    pdb.set_trace()
+
+    resultado = base[base['title']==title]
+    resultado = resultado.values[0].to_dict()
 
     return resultado
 

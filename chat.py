@@ -48,13 +48,20 @@ async def chat():
             print("Saindo...")
             break
 
-        response = await agent.ainvoke(
-            {"messages": [{"role": "user", "content": user_input}]}
-        )
-       
-        print("\nResposta do agente:\n")
-        print(response["messages"][-1].content)
-        print("\n")
+        # response = await agent.ainvoke(
+        #     {"messages": [{"role": "user", "content": user_input}]}
+        # )
+
+        async for chunk in agent.astream(
+                        {"messages": user_input},
+                        stream_mode=["messages", "custom"],
+                    ):
+            print(chunk)
+            import pdb
+            pdb.set_trace()
+        # print("\nResposta do agente:\n")
+        # print(response["messages"][-1].content)
+        # print("\n")
             # except: 
             #      print(f"Ocorreu um erro: {e}")
             #break
