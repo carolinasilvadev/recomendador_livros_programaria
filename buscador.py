@@ -42,7 +42,7 @@ def buscador(genero: str, numero_pg: int) -> pd.DataFrame:
     return resultado
 
 @mcp.tool()
-def buscar_pelo_nome(title: str):
+def buscar_por_nome(titulo: str):
     """
     descricao: 
     Função para buscar as informações de um 
@@ -69,12 +69,11 @@ def buscar_pelo_nome(title: str):
         title: The title of the book
         totalratings: Totalratings of the book
     """   
-    base = pd.read_csv(base_livros)
-    logging.info(f"Buscando livro: {title}")
+    base = pd.read_csv(base_livros, encoding= 'utf-8')
 
-    resultado = base[base['title']==title]
+    base = base[base['title'].str.contains(titulo, case=False, na=False)]
 
-    return resultado.to_dict()
+    return base
 
 
 if __name__ == "__main__":
